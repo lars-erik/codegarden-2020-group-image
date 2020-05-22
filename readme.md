@@ -4,7 +4,7 @@ Since there is no CodeGarden for 2020, let's come together in a group picture an
 Make a PR to this repo and we'll see about merging you in.  
 A pre-cut layer of yourself in psd or png would be sweet!
 
-[Sparked from this tweet...](https://github.com/lars-erik/codegarden-2020-group-image)
+[Sparked from this tweet...](https://twitter.com/marcemarc/status/1263566791281950734)
 
 ![CodeGarden group picture 2020](./codegarden2020.jpg)  
 *Capturing the mood in the garden.*
