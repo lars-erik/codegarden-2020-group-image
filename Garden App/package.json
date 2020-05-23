@@ -1,0 +1,7 @@
+{
+  "name": "codegarden.app",
+  "version": "0.1",
+  "dependencies": {
+    "three": "^0.116.1"
+  }
+}
