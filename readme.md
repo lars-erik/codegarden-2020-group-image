@@ -12,7 +12,7 @@ It would also be lovely to see joint talks you did or went to.
 
 Depending on whether we stay with the one group photo or many,  
 occational help expanding the garden would also be super appreciated!  
-We have [extra foreground](./extra-foreground.jpg), and the main PSD
+We have [extra foreground](./Props/extra-foreground.jpg), and the main PSD
 is split so the building to the right can be moved to the right.
 
 Now go enjoy CG2020...
@@ -24,5 +24,5 @@ Now go enjoy CG2020...
 
 ## Talks
 
-![Dave Woestenborghs and Lars-Erik Aabech talking](./dawoe-bleedo.jpg)
+![Dave Woestenborghs and Lars-Erik Aabech talking](./Talks/dawoe-bleedo.jpg)
 *Dave & Lars discussing where Dave's cheese went*
