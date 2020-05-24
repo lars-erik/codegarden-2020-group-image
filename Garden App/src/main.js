@@ -27,6 +27,8 @@ const textures = {
     "Dok-04": { "src": "Dok5000-02.jpg" },
     "Dok-05": { "src": "Dok5000-02.jpg" },
     "Dok-06": { "src": "Dok5000-02.jpg" },
+    "Dok-Door-TopLeft": { "src": "Dok5000-Door-TopLeft.png" },
+    "Dok-Door-TopRight": { "src": "Dok5000-Door-TopRight.png" },
     "FAF": { "src": "Dok5000bg.png" },
     "FrontWall": { "src": "BlackWall.jpg" },
     "Grass": { "src": "Grass.jpg", "prep": (tex) => {
@@ -42,7 +44,11 @@ const textures = {
     "Store-05": { "src": "Storage-01.jpg" },
     "Store-06": { "src": "Storage-01.jpg" },
     "StoreBack": { "src": "Right-Back.png" },
-
+    "StoreRoof": { "src": "Storage-02.jpg", "prep": (tex) => {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(1, 1);
+    } },
 
     "alan": { "src": "peeps/alan.png" },
     "dang": { "src": "peeps/dang.png" },
