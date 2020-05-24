@@ -47,9 +47,9 @@ const textures = {
     "alan": { "src": "peeps/alan.png" },
     "dang": { "src": "peeps/dang.png" },
     "genc": { "src": "peeps/genc.png" },
-    "giraffe-01": { "src": "peeps/giraffe-01" },
+    "giraffe-01": { "src": "peeps/giraffe-01.png" },
     "jason-and-mark": { "src": "peeps/jason-and-mark.png" },
-    "lars": { "src": "peeps/Lars.png" },
+    "lars": { "src": "peeps/lars.png" },
     "lee": { "src": "peeps/lee.png" },
     "marc": { "src": "peeps/marc.png" },
     "matt-b": { "src": "peeps/matt-b.png" },
@@ -71,7 +71,10 @@ function loadTextures(loader) {
                 }
                 textures[key].texture = tex;
                 res();
-            }, () => rej());
+            }, null, () => {
+                console.log(key + " failed");
+                rej()
+            });
         });
         promise.texKey = key;
         return promise;
