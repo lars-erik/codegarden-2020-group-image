@@ -31,3 +31,10 @@ html, body {
     font-size: 2em;
     flex-direction: column;
 }
+
+#instructions {
+    margin-top: 20px;
+    text-align: center;
+    font-size: .75em;
+    font-style: italic;
+}
