@@ -9,6 +9,6 @@
   },
   "scripts": {
     "dev": "parcel src/index.html",
-    "gh-pages": "parcel build src/index.html --public-url ./ --out-dir ./../../codegarden-2020-group-image-gh-pages & parcel build src/static/**/* --out-dir ./../../codegarden-2020-group-image-gh-pages/static"
+    "build": "parcel build src/index.html --public-url ./ --out-dir ./../../codegarden-2020-group-image-gh-pages & parcel build src/static/**/* --out-dir ./../../codegarden-2020-group-image-gh-pages/static"
   }
 }

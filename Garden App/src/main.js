@@ -4,6 +4,7 @@ import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockCont
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { TextureLoader } from 'three';
+import peeps from "./peeps";
 
 var container, orbitControls, walkControls, fpsControls;
 var camera, scene, renderer;
@@ -29,13 +30,15 @@ const textures = {
     "Dok-06": { "src": "Dok5000-02.jpg" },
     "Dok-Door-TopLeft": { "src": "Dok5000-Door-TopLeft.png" },
     "Dok-Door-TopRight": { "src": "Dok5000-Door-TopRight.png" },
-    "FAF": { "src": "Dok5000bg.png" },
+    "FAF": { "src": "FAF.png" },
     "FrontWall": { "src": "BlackWall.jpg" },
-    "Grass": { "src": "Grass.jpg", "prep": (tex) => {
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(20, 20);
-    } },
+    "Grass": {
+        "src": "Grass.jpg", "prep": (tex) => {
+            tex.wrapS = THREE.RepeatWrapping;
+            tex.wrapT = THREE.RepeatWrapping;
+            tex.repeat.set(20, 20);
+        }
+    },
     "RearWall": { "src": "BlackWall.jpg" },
     "Store-01": { "src": "Storage-01.jpg" },
     "Store-02": { "src": "Storage-01.jpg" },
@@ -44,28 +47,18 @@ const textures = {
     "Store-05": { "src": "Storage-01.jpg" },
     "Store-06": { "src": "Storage-01.jpg" },
     "StoreBack": { "src": "Right-Back.png" },
-    "StoreRoof": { "src": "Storage-02.jpg", "prep": (tex) => {
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(1, 1);
-    } },
-
-    "alan": { "src": "peeps/alan.png" },
-    "dang": { "src": "peeps/dang.png" },
-    "genc": { "src": "peeps/genc.png" },
-    "giraffe-01": { "src": "peeps/giraffe-01.png" },
-    "jason-and-mark": { "src": "peeps/jason-and-mark.png" },
-    "lars": { "src": "peeps/lars.png" },
-    "lee": { "src": "peeps/lee.png" },
-    "marc": { "src": "peeps/marc.png" },
-    "matt-b": { "src": "peeps/matt-b.png" },
-    "owain": { "src": "peeps/owain.png" },
-    "per": { "src": "peeps/per.png" },
-    "rabbit-01": { "src": "peeps/rabbit-01.png" },
-    "rabbit-02": { "src": "peeps/rabbit-01.png" },
-    "ravi": { "src": "peeps/ravi.png" },
-
+    "StoreRoof": {
+        "src": "Storage-02.jpg", "prep": (tex) => {
+            tex.wrapS = THREE.RepeatWrapping;
+            tex.wrapT = THREE.RepeatWrapping;
+            tex.repeat.set(1, 1);
+        }
+    },
+    "Ole-Erling": { "src": "ole-erling.png" },
+    "SkyHeroes": { "src": "skyheroes.png" },
 }
+
+
 
 function loadTextures(loader) {
     let promises = Object.keys(textures).map(key => {
@@ -90,24 +83,59 @@ function loadTextures(loader) {
     });
 }
 
+function loadPeeps(loader) {
+    let promises = Object.keys(peeps).map(key => {
+        let promise = new Promise((res, rej) => {
+            loader.load('./static/peeps/' + key + '.png', tex => {
+                tex.flipY = true;
+                peeps[key].texture = tex;
+                res();
+            }, null, () => {
+                console.log(key + " failed");
+                rej()
+            });
+        });
+        promise.texKey = key;
+        return promise;
+    });
+    return Promise.all(promises).then(() => {
+        console.log(peeps);
+    });
+}
+
+const loadTexts = [
+    "Bringing down the sky",
+    "Virtualizing DOK5000",
+    "Flying in people"
+];
+let loadTextIndex = 0;
+function nextLoadText() {
+    document.getElementById("loadText").innerText = loadTexts[loadTextIndex++];
+}
+
 init();
 
 function init() {
 
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
+    nextLoadText();
 
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 200 );
-    camera.position.set( 0, 3.2, 5 );
+    container = document.createElement('div');
+    document.body.appendChild(container);
 
-    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+    camera.position.set(-11.5, 3.2, 29.8);
+
+    window.peeps = peeps;
+    window.scene = scene = new THREE.Scene();
 
     new RGBELoader()
-        .setDataType( THREE.UnsignedByteType )
-        .setPath( './static/' )
-        .load( 'driving_school_2k.hdr', function ( texture ) {
+        .setDataType(THREE.UnsignedByteType)
+        .setPath('./static/')
+        .load('driving_school_2k.hdr', function (texture) {
 
-            var envMap = pmremGenerator.fromEquirectangular( texture ).texture;
+            nextLoadText();
+
+            var envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
             scene.background = envMap;
             scene.environment = envMap;
@@ -117,18 +145,25 @@ function init() {
 
             // model
 
-            var loader = new GLTFLoader().setPath( './static/' );
-            loader.load( 'garden.glb', function ( gltf ) {
+            var loader = new GLTFLoader().setPath('./static/');
+            loader.load('garden.glb', function (gltf) {
 
-                scene.add( gltf.scene );
+                nextLoadText();
+
+                scene.add(gltf.scene);
                 console.log(gltf.scene);
 
-                loadTextures(new TextureLoader())
-                    .then(() => {
-                        gltf.scene.traverse( function ( child ) {
+                var textureLoader = new TextureLoader();
 
-                            if ( child.isMesh && textures[child.name] ) {
-        
+                var envTextures = loadTextures(textureLoader);
+                var peepTextures = loadPeeps(textureLoader);
+
+                Promise.all([envTextures, peepTextures])
+                    .then(() => {
+                        gltf.scene.traverse(function (child) {
+
+                            if (child.isMesh && textures[child.name]) {
+
                                 let mat = new THREE.MeshBasicMaterial();
                                 mat.map = textures[child.name].texture;
                                 mat.side = THREE.DoubleSide;
@@ -139,95 +174,69 @@ function init() {
                                 }
 
                                 child.material = mat;
-        
+
                             }
-        
-                        } );
+
+                        });
+
+                        Object.keys(peeps).forEach(key => {
+
+                            var peep = peeps[key];
+                            if (peep.pos) {
+                                let scale = 4 * (peep.scale || 1),
+                                    center = scale / 2,
+                                    geo = new THREE.PlaneGeometry(scale, scale),
+                                    mat = new THREE.MeshBasicMaterial(),
+                                    peepMesh = new THREE.Mesh(geo, mat);
+
+                                mat.map = peeps[key].texture;
+                                mat.side = THREE.DoubleSide;
+                                mat.needsUpdate = true;
+                                mat.transparent = true;
+
+                                peepMesh.position.x = peep.pos.x;
+                                peepMesh.position.z = peep.pos.z;
+                                peepMesh.position.y = center;
+                                peepMesh.rotation.y = peep.rot;
+
+                                peepMesh.name = key;
+
+                                if (!peep.fixed) {
+                                    peepMesh.lookAt(camera.position.x, 2, camera.position.z);
+                                }
+                                scene.add(peepMesh);
+                            }
+
+                        });
+
+                        camera.lookAt(scene.getObjectByName("umbracoffee-with-niels").position);
+
+                        document.getElementById("loader").style.display = "none";
 
                         animate();
 
                     });
-            } );
+            });
 
-        } );
+        });
 
-    var onKeyDown = function ( event ) {
 
-        switch ( event.keyCode ) {
+    document.addEventListener('keydown', onKeyDown, false);
+    document.addEventListener('keyup', onKeyUp, false);
 
-            case 38: // up
-            case 87: // w
-                moveForward = true;
-                break;
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
 
-            case 37: // left
-            case 65: // a
-                moveLeft = true;
-                break;
-
-            case 40: // down
-            case 83: // s
-                moveBackward = true;
-                break;
-
-            case 39: // right
-            case 68: // d
-                moveRight = true;
-                break;
-
-            case 32: // space
-                if ( canJump === true ) velocity.y += 350;
-                canJump = false;
-                break;
-
-        }
-
-    };
-
-    var onKeyUp = function ( event ) {
-
-        switch ( event.keyCode ) {
-
-            case 38: // up
-            case 87: // w
-                moveForward = false;
-                break;
-
-            case 37: // left
-            case 65: // a
-                moveLeft = false;
-                break;
-
-            case 40: // down
-            case 83: // s
-                moveBackward = false;
-                break;
-
-            case 39: // right
-            case 68: // d
-                moveRight = false;
-                break;
-
-        }
-
-    };
-
-    document.addEventListener( 'keydown', onKeyDown, false );
-    document.addEventListener( 'keyup', onKeyUp, false );
-
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    container.appendChild( renderer.domElement );
-
-    var pmremGenerator = new THREE.PMREMGenerator( renderer );
+    var pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
 
-    walkControls = new PointerLockControls( camera, document.body );
+    walkControls = new PointerLockControls(camera, document.body);
     scene.add(walkControls.getObject());
 
-    window.addEventListener( 'resize', onWindowResize, false );
-    window.addEventListener( 'click', toggleLock, false );
+    window.addEventListener('resize', onWindowResize, false);
+    window.addEventListener('click', toggleLock, false);
 }
 
 function toggleLock() {
@@ -244,15 +253,76 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
     render();
 
 }
 
+function onKeyDown(event) {
+
+    switch (event.keyCode) {
+
+        case 38: // up
+        case 87: // w
+            moveForward = true;
+            break;
+
+        case 37: // left
+        case 65: // a
+            moveLeft = true;
+            break;
+
+        case 40: // down
+        case 83: // s
+            moveBackward = true;
+            break;
+
+        case 39: // right
+        case 68: // d
+            moveRight = true;
+            break;
+
+        case 32: // space
+            if (canJump === true) velocity.y += 350;
+            canJump = false;
+            break;
+
+    }
+
+};
+
+function onKeyUp(event) {
+
+    switch (event.keyCode) {
+
+        case 38: // up
+        case 87: // w
+            moveForward = false;
+            break;
+
+        case 37: // left
+        case 65: // a
+            moveLeft = false;
+            break;
+
+        case 40: // down
+        case 83: // s
+            moveBackward = false;
+            break;
+
+        case 39: // right
+        case 68: // d
+            moveRight = false;
+            break;
+
+    }
+
+};
+
 function figureMovement() {
-    
-    if ( walkControls.isLocked === true ) {
+
+    if (walkControls.isLocked === true) {
 
         var delta = clock.getDelta();
         var drag = 40;
@@ -262,12 +332,12 @@ function figureMovement() {
 
         // velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 
-        direction.z = Number( moveForward ) - Number( moveBackward );
-        direction.x = Number( moveRight ) - Number( moveLeft );
+        direction.z = Number(moveForward) - Number(moveBackward);
+        direction.x = Number(moveRight) - Number(moveLeft);
         direction.normalize(); // this ensures consistent movements in all directions
 
-        if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
-        if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
+        if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
+        if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
 
         // if ( onObject === true ) {
 
@@ -276,16 +346,29 @@ function figureMovement() {
 
         // }
 
-        walkControls.moveRight( - velocity.x * delta );
-        walkControls.moveForward( - velocity.z * delta );
+        walkControls.moveRight(- velocity.x * delta);
+        walkControls.moveForward(- velocity.z * delta);
 
-        let xPos = walkControls.getObject().position.x;
-        let zPos = walkControls.getObject().position.z;
+        let obj = walkControls.getObject();
+        let xPos = obj.position.x;
+        let zPos = obj.position.z;
 
         if (xPos < -19 || xPos > 19 || zPos < -19 || zPos > 36) {
-            walkControls.getObject().position.x = xPos = Math.min(18.9, Math.max(-18.9, xPos));
-            walkControls.getObject().position.z = zPos = Math.min(35.9, Math.max(-18.9, zPos));
+            obj.position.x = xPos = Math.min(18.9, Math.max(-18.9, xPos));
+            obj.position.z = zPos = Math.min(35.9, Math.max(-18.9, zPos));
         }
+
+        Object.keys(peeps).forEach(key => {
+            let peepMesh = scene.getObjectByName(key);
+            if (peepMesh && !peeps[key].fixed) {
+                peepMesh.lookAt(camera.position.x, 2, camera.position.z);
+            }
+        });
+
+        document.getElementById("output").innerText =
+            parseInt(obj.position.x * 100) + ", " +
+            parseInt(obj.position.z * 100) + ", " +
+            parseInt(obj.position.y * 100);
 
         // controls.getObject().position.y += ( velocity.y * delta ); // new behavior
 
@@ -311,6 +394,6 @@ function animate() {
 
 function render() {
 
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
 
 }
