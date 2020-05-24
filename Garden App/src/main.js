@@ -279,6 +279,14 @@ function figureMovement() {
         walkControls.moveRight( - velocity.x * delta );
         walkControls.moveForward( - velocity.z * delta );
 
+        let xPos = walkControls.getObject().position.x;
+        let zPos = walkControls.getObject().position.z;
+
+        if (xPos < -19 || xPos > 19 || zPos < -19 || zPos > 36) {
+            walkControls.getObject().position.x = xPos = Math.min(18.9, Math.max(-18.9, xPos));
+            walkControls.getObject().position.z = zPos = Math.min(35.9, Math.max(-18.9, zPos));
+        }
+
         // controls.getObject().position.y += ( velocity.y * delta ); // new behavior
 
         // if ( controls.getObject().position.y < 10 ) {
