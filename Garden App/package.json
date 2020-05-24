@@ -3,5 +3,8 @@
   "version": "0.1",
   "dependencies": {
     "three": "^0.116.1"
+  },
+  "devDependencies": {
+    "cssnano": "^4.1.10"
   }
 }
