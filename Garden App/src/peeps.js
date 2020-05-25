@@ -58,6 +58,7 @@ var peeps = {
     "genc-kastrati": { pos: { x: -17, z: 10 } },
     "karl-and-busra": { pos: { x: -13, z: 7 } },
     "matt-barlow": { pos: { x: -2, z: 23 } },
+    "timqueens": { pos: { x: -6, z: 18 } }, 	
 };
 
 export default peeps;
