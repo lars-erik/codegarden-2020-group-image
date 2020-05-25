@@ -8,7 +8,7 @@
     "cssnano": "^4.1.10"
   },
   "scripts": {
-    "dev": "parcel src/index.html",
+    "dev": "parcel build src/static/**/* --out-dir dist/static & parcel src/index.html",
     "build": "parcel build src/index.html --public-url ./ --out-dir ./../../codegarden-2020-group-image-gh-pages & parcel build src/static/**/* --out-dir ./../../codegarden-2020-group-image-gh-pages/static"
   }
 }
