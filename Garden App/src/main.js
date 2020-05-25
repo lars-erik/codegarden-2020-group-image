@@ -56,6 +56,12 @@ const textures = {
     },
     "Ole-Erling": { "src": "ole-erling.png" },
     "SkyHeroes": { "src": "skyheroes.png" },
+    
+    "Heads-Rasmus": { "src": "Heads-Rasmus.png" },
+    "Heads-Shannon": { "src": "Heads-Shannon.png" },
+    "Heads-Paul": { "src": "Heads-Paul.png" },
+
+
 }
 
 

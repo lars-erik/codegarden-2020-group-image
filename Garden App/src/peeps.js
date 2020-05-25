@@ -17,23 +17,28 @@ var peeps = {
         fixed: true
     },
 
+    "rover-after": {
+        pos: {
+            x: -17,
+            z: 33
+        },
+        scale: 2,
+        rot: Math.PI * -.25,
+        fixed: true
+    },
+
     // TODO: Figure out why they're not visible
     "kim-and-rune": { pos: { x: 0, z: 0 }, fixed: true },
 
 
-    "package-team": {
-        pos: {
-            x: -3,
-            z: 21
-        }
-    },
+    "package-team": { pos: { x: -3, z: 21 } },
 
-    "candid-contribs": {
-        pos: {
-            x: -17,
-            z: 20
-        },
+    "accessibility": {
+        pos: { x: -10, z: 3 },
+        scale: 1.5
     },
+    
+    "candid-contribs": { pos: { x: -17, z: 20} },
 
     "umbeatles": { pos: { x: -6, z: 7 } },
     "erica-kyle-janae": { pos: { x: -10, z: 15 } },
@@ -58,7 +63,7 @@ var peeps = {
     "genc-kastrati": { pos: { x: -17, z: 10 } },
     "karl-and-busra": { pos: { x: -13, z: 7 } },
     "matt-barlow": { pos: { x: -2, z: 23 } },
-    "timqueens2": { pos: { x: 0, z: 11 } }, 	
+    "timqueens2": { pos: { x: 0, z: 11 } },
 };
 
 export default peeps;
