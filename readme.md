@@ -3,6 +3,9 @@
 Since there is no CodeGarden for 2020, let's come together in a group picture anyway.  
 [Sparked from this tweet...](https://twitter.com/marcemarc/status/1263566791281950734)
 
+You can now also take a stroll in a virtual version of the garden:  
+[https://lars-erik.github.io/codegarden-2020-group-image](https://lars-erik.github.io/codegarden-2020-group-image)
+
 ## Contribute
 
 Make a PR to this repo and we'll see about merging you in.  
@@ -14,6 +17,9 @@ Depending on whether we stay with the one group photo or many,
 occational help expanding the garden would also be super appreciated!  
 We have [extra foreground](./Props/extra-foreground.jpg), and the main PSD
 is split so the building to the right can be moved to the right.
+
+Contribution info for the virtual garden is available in the another-dimension branch.  
+[https://github.com/lars-erik/codegarden-2020-group-image/tree/another-dimension](https://github.com/lars-erik/codegarden-2020-group-image/tree/another-dimension)
 
 Now go enjoy CG2020...
 
