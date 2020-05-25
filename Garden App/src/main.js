@@ -21,6 +21,15 @@ var velocity = new THREE.Vector3();
 var direction = new THREE.Vector3();
 var clock = new THREE.Clock();
 
+const easelWood = { 
+    "src": "Seamless-Wood-Texture-4.jpg", 
+    "prep": (tex) => {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(1, 1);
+    }
+};
+
 const textures = {
     "Dok-01": { "src": "Dok5000-01.jpg" },
     "Dok-02": { "src": "Dok5000-Door-R.jpg" },
@@ -61,7 +70,13 @@ const textures = {
     "Heads-Shannon": { "src": "Heads-Shannon.png" },
     "Heads-Paul": { "src": "Heads-Paul.png" },
 
-
+    "EaselBackLeg": easelWood,
+    "EaselLeftLeg": easelWood,
+    "EaselRightLeg": easelWood,
+    "EaselUpper": easelWood,
+    "EaselCanvasSupport": easelWood,
+    "EaselCanvasPlaceholder": easelWood,
+    "Picture": { "src": "codegarden2020.jpg" }
 }
 
 
