@@ -6,6 +6,8 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import { TextureLoader } from 'three';
 import peeps from "./peeps";
 
+import { createBubble } from "./bubbles";
+
 var container, orbitControls, walkControls, fpsControls;
 var camera, scene, renderer;
 
@@ -29,6 +31,15 @@ const easelWood = {
         tex.repeat.set(1, 1);
     }
 };
+
+const quotes = [
+    ["High five,", "you rock!"],
+    ["Really nice to", "meet you!"],
+    ["Your latest work", "was really", "awesome!"],
+    ["So nice to", "finally meet!"],
+    ["Wow, it's you!"],
+    ["Thanks for", "being here!"],
+]
 
 const textures = {
     "Dok-01": { "src": "Dok5000-01.jpg" },
@@ -79,8 +90,6 @@ const textures = {
     "Picture": { "src": "codegarden2020.jpg" }
 }
 
-
-
 function loadTextures(loader) {
     let promises = Object.keys(textures).map(key => {
         let promise = new Promise((res, rej) => {
@@ -122,6 +131,13 @@ function loadPeeps(loader) {
     return Promise.all(promises).then(() => {
         console.log(peeps);
     });
+}
+
+function createPanel(scale) {
+    let center = scale / 2,
+        geo = new THREE.PlaneGeometry(scale, scale),
+        mat = new THREE.MeshBasicMaterial();
+    return new THREE.Mesh(geo, mat);
 }
 
 const loadTexts = [
@@ -205,10 +221,8 @@ function init() {
                             var peep = peeps[key];
                             if (peep.pos) {
                                 let scale = 4 * (peep.scale || 1),
-                                    center = scale / 2,
-                                    geo = new THREE.PlaneGeometry(scale, scale),
-                                    mat = new THREE.MeshBasicMaterial(),
-                                    peepMesh = new THREE.Mesh(geo, mat);
+                                    peepMesh = createPanel(scale),
+                                    mat = peepMesh.material;
 
                                 mat.map = peeps[key].texture;
                                 mat.side = THREE.DoubleSide;
@@ -217,10 +231,12 @@ function init() {
 
                                 peepMesh.position.x = peep.pos.x;
                                 peepMesh.position.z = peep.pos.z;
-                                peepMesh.position.y = center;
+                                peepMesh.position.y = scale / 2;
                                 peepMesh.rotation.y = peep.rot;
 
                                 peepMesh.name = key;
+                                peepMesh.isPeep = true;
+                                peepMesh.peep = peep;
 
                                 if (!peep.fixed) {
                                     peepMesh.lookAt(camera.position.x, 2, camera.position.z);
@@ -233,7 +249,7 @@ function init() {
                         camera.lookAt(scene.getObjectByName("umbracoffee-with-niels").position);
 
                         document.getElementById("loader").style.display = "none";
-
+                        
                         animate();
 
                     });
@@ -351,21 +367,12 @@ function figureMovement() {
         velocity.x -= velocity.x * drag * delta;
         velocity.z -= velocity.z * drag * delta;
 
-        // velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-
         direction.z = Number(moveForward) - Number(moveBackward);
         direction.x = Number(moveRight) - Number(moveLeft);
         direction.normalize(); // this ensures consistent movements in all directions
 
         if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
         if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
-
-        // if ( onObject === true ) {
-
-        //     velocity.y = Math.max( 0, velocity.y );
-        //     canJump = true;
-
-        // }
 
         walkControls.moveRight(- velocity.x * delta);
         walkControls.moveForward(- velocity.z * delta);
@@ -391,18 +398,53 @@ function figureMovement() {
             parseInt(obj.position.z * 100) + ", " +
             parseInt(obj.position.y * 100);
 
-        // controls.getObject().position.y += ( velocity.y * delta ); // new behavior
 
-        // if ( controls.getObject().position.y < 10 ) {
+        scene.traverse(peep => {
+            if (!peep.isPeep || peep.peep.fixed) {
+                return;
+            }
 
-        //     velocity.y = 0;
-        //     controls.getObject().position.y = 10;
+            /*
+                        let quoteNo = Math.floor(Math.random() * quotes.length);
+                        let quote = quotes[quoteNo];
+                        let texture = new THREE.CanvasTexture(createBubble.apply(null, quote));
+                        let panel = createPanel(2);
+                        panel.position.x = 0; //scene.getObjectByName('umbracoffee-with-niels').position.x;
+                        panel.position.z = 0; //scene.getObjectByName('umbracoffee-with-niels').position.z;
+                        panel.position.y = 2;
+                        panel.material.map = texture;
+                        panel.material.needsUpdate = true;
+                        panel.material.transparent = true;
+                        panel.material.side = THREE.DoubleSide;
+                        scene.getObjectByName('umbracoffee-with-niels').add(panel);
+            */
 
-        //     canJump = true;
-
-        // }
-
-        // prevTime = time;
+            if (!peep.isTalking && peep.position.distanceTo(obj.position) < 4) {
+                let chance = Math.random();
+                if (chance < .02) {
+                    peep.isTalking = true;
+                    peep.startedTalking = new Date();
+                    console.log(peep.name + " started talking " + peep.startedTalking);
+                    let quoteNo = Math.floor(Math.random() * quotes.length);
+                    let quote = quotes[quoteNo];
+                    let texture = new THREE.CanvasTexture(createBubble.apply(null, quote));
+                    let panel = createPanel(1.5);
+                    panel.position.x = 1.5;
+                    panel.position.z = .1;
+                    panel.position.y = 2.25;
+                    panel.material.map = texture;
+                    panel.material.needsUpdate = true;
+                    panel.material.transparent = true;
+                    peep.add(panel);
+                }
+            } else if (peep.isTalking) {
+                if (new Date() - peep.startedTalking > 5000) {
+                    peep.isTalking = false;
+                    console.log(peep.name + " stopped talking " + new Date());
+                    peep.remove(peep.children[0]);
+                }
+            }
+        });
 
     }
 }
