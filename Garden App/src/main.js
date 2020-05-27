@@ -66,7 +66,7 @@ const textures = {
     "Store-03": { "src": "Storage-01.jpg" },
     "Store-04": { "src": "Storage-01.jpg" },
     "Store-05": { "src": "Storage-01.jpg" },
-    "Store-06": { "src": "Storage-01.jpg" },
+    "Store-06": { "src": "Storage-01-banksy.jpg" },
     "StoreBack": { "src": "Right-Back.png" },
     "StoreRoof": {
         "src": "Storage-02.jpg", "prep": (tex) => {
