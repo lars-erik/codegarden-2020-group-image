@@ -452,7 +452,7 @@ function figureMovement() {
                     let quote = quotes[quoteNo];
                     let texture = new THREE.CanvasTexture(createBubble.apply(null, quote));
                     let panel = createPanel(1.5);
-                    panel.position.x = 1.5;
+                    panel.position.x = .8;
                     panel.position.z = .1;
                     panel.position.y = 2.25 / (peep.peep.scale || 1);
                     panel.material.map = texture;
