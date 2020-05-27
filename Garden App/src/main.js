@@ -166,6 +166,7 @@ let audioPromise = new Promise((res, rej) => {
         res();
     }, 10000);
 
+    document.getElementById("audio").loop = true;
     document.getElementById("audio").volume = 0;
     document.getElementById("audio").addEventListener("canplaythrough", () => {
         console.log("resolving music");
