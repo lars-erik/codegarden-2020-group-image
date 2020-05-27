@@ -76,10 +76,6 @@ const textures = {
     },
     "Ole-Erling": { "src": "ole-erling.png" },
     "SkyHeroes": { "src": "skyheroes.png" },
-    
-    "Heads-Rasmus": { "src": "Heads-Rasmus.png" },
-    "Heads-Shannon": { "src": "Heads-Shannon.png" },
-    "Heads-Paul": { "src": "Heads-Paul.png" },
 
     "EaselBackLeg": easelWood,
     "EaselLeftLeg": easelWood,
@@ -87,7 +83,18 @@ const textures = {
     "EaselUpper": easelWood,
     "EaselCanvasSupport": easelWood,
     "EaselCanvasPlaceholder": easelWood,
-    "Picture": { "src": "codegarden2020.jpg" }
+    "Picture": { "src": "codegarden2020.jpg" },
+
+    "Heads-Rasmus": { "src": "Heads-Rasmus.png" },
+    "Heads-Shannon": { "src": "Heads-Shannon.png" },
+    "Heads-Paul": { "src": "Heads-Paul.png" },
+    "Heads-Adam": { "src": "Heads-Adam.png" },
+    "Heads-Andrew": { "src": "Heads-Andrew.png" },
+    "Heads-Nathan": { "src": "Heads-Nathan.png" },
+    "Heads-Michael": { "src": "Heads-Michael.png" },
+    "Heads-Skttl": { "src": "Heads-Skttl.png" },
+
+
 }
 
 function loadTextures(loader) {
@@ -389,7 +396,7 @@ function figureMovement() {
         Object.keys(peeps).forEach(key => {
             let peepMesh = scene.getObjectByName(key);
             if (peepMesh && !peeps[key].fixed) {
-                peepMesh.lookAt(camera.position.x, 2, camera.position.z);
+                peepMesh.lookAt(camera.position.x, 2 * (peepMesh.peep.scale || 1), camera.position.z);
             }
         });
 
@@ -404,24 +411,9 @@ function figureMovement() {
                 return;
             }
 
-            /*
-                        let quoteNo = Math.floor(Math.random() * quotes.length);
-                        let quote = quotes[quoteNo];
-                        let texture = new THREE.CanvasTexture(createBubble.apply(null, quote));
-                        let panel = createPanel(2);
-                        panel.position.x = 0; //scene.getObjectByName('umbracoffee-with-niels').position.x;
-                        panel.position.z = 0; //scene.getObjectByName('umbracoffee-with-niels').position.z;
-                        panel.position.y = 2;
-                        panel.material.map = texture;
-                        panel.material.needsUpdate = true;
-                        panel.material.transparent = true;
-                        panel.material.side = THREE.DoubleSide;
-                        scene.getObjectByName('umbracoffee-with-niels').add(panel);
-            */
-
-            if (!peep.isTalking && peep.position.distanceTo(obj.position) < 4) {
+            if (!peep.isTalking && peep.position.distanceTo(obj.position) < 5) {
                 let chance = Math.random();
-                if (chance < .02) {
+                if (chance < .008) {
                     peep.isTalking = true;
                     peep.startedTalking = new Date();
                     console.log(peep.name + " started talking " + peep.startedTalking);
@@ -431,7 +423,7 @@ function figureMovement() {
                     let panel = createPanel(1.5);
                     panel.position.x = 1.5;
                     panel.position.z = .1;
-                    panel.position.y = 2.25;
+                    panel.position.y = 2.25 / (peep.peep.scale || 1);
                     panel.material.map = texture;
                     panel.material.needsUpdate = true;
                     panel.material.transparent = true;

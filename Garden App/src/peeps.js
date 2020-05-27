@@ -43,6 +43,9 @@ var peeps = {
     "umbeatles": { pos: { x: -6, z: 7 } },
     "erica-kyle-janae": { pos: { x: -10, z: 15 } },
 
+    "marianne-christian-slave-and-eagle": { pos: { x: -16, z: -13 }},
+    "john-seto": { pos: { x: -13, z: -14 }},
+
     "rabbit-01": { pos: { x: 1, z: 26 } },
     "rabbit-02": { pos: {x: 6, z: 2 }},
     "giraffe-01": { pos: { x: -7.2, z: 10 } },
@@ -64,6 +67,12 @@ var peeps = {
     "karl-and-busra": { pos: { x: -13, z: 7 } },
     "matt-barlow": { pos: { x: -2, z: 23 } },
     "timqueens2": { pos: { x: 0, z: 11 } },
+
+    "paul-sterling": { pos: { x: -19, z: 4 }},
+
+    "heather": { pos: { x: 1, z: 16 }},
+    "bob": { pos: { x: 2, z: 17 }},
+    "dennis-o": { pos: { x: 0, z: 29 }},
 };
 
 export default peeps;
