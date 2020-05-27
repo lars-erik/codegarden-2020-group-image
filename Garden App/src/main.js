@@ -39,6 +39,7 @@ const quotes = [
     ["So nice to", "finally meet!"],
     ["Wow, it's you!"],
     ["Thanks for", "being here!"],
+    ["It's so nice to", "be here together!"],
 ]
 
 const textures = {
@@ -150,12 +151,28 @@ function createPanel(scale) {
 const loadTexts = [
     "Bringing down the sky",
     "Virtualizing DOK5000",
-    "Flying in people"
+    "Flying in people",
+    "Queuing angelic music"
 ];
 let loadTextIndex = 0;
+
 function nextLoadText() {
     document.getElementById("loadText").innerText = loadTexts[loadTextIndex++];
 }
+
+let audioPromise = new Promise((res, rej) => {
+    let timer = setTimeout(function() {
+        console.log("starting without music");
+        res();
+    }, 10000);
+
+    document.getElementById("audio").volume = 0;
+    document.getElementById("audio").addEventListener("canplaythrough", () => {
+        console.log("resolving music");
+        clearTimeout(timer);
+        res();
+    });
+});
 
 init();
 
@@ -255,9 +272,20 @@ function init() {
 
                         camera.lookAt(scene.getObjectByName("umbracoffee-with-niels").position);
 
-                        document.getElementById("loader").style.display = "none";
-                        
-                        animate();
+                        nextLoadText();
+
+                        audioPromise.then(() => {
+                            document.getElementById("loader").style.display = "none";
+
+                            let volume = 1 - camera.position.distanceTo(scene.getObjectByName('Ole-Erling').position) / 43;
+                            document.getElementById("audio").volume = volume;
+                            document.getElementById("audio").play();
+
+                            window.addEventListener('click', toggleLock, false);
+
+                            animate();
+                        });
+
 
                     });
             });
@@ -280,7 +308,6 @@ function init() {
     scene.add(walkControls.getObject());
 
     window.addEventListener('resize', onWindowResize, false);
-    window.addEventListener('click', toggleLock, false);
 }
 
 function toggleLock() {
@@ -400,11 +427,14 @@ function figureMovement() {
             }
         });
 
+        let volume = 1 - obj.position.distanceTo(scene.getObjectByName('Ole-Erling').position) / 43;
+        document.getElementById("audio").volume = volume;
+
         document.getElementById("output").innerText =
             parseInt(obj.position.x * 100) + ", " +
             parseInt(obj.position.z * 100) + ", " +
-            parseInt(obj.position.y * 100);
-
+            parseInt(obj.position.y * 100) + " - " +
+            volume;
 
         scene.traverse(peep => {
             if (!peep.isPeep || peep.peep.fixed) {
