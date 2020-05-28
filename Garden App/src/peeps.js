@@ -78,6 +78,8 @@ var peeps = {
     "alan-mackenna": { pos: { x: 2, z: 7 }},
 
     "codecabin": { pos: { x: -6, z: -2 }},
+
+    "rasmus": { pos: { x: 4, z: 23 }},
 };
 
 export default peeps;
