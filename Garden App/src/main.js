@@ -57,7 +57,7 @@ const textures = {
         "src": "Grass.jpg", "prep": (tex) => {
             tex.wrapS = THREE.RepeatWrapping;
             tex.wrapT = THREE.RepeatWrapping;
-            tex.repeat.set(20, 20);
+            tex.repeat.set(10, 10);
         }
     },
     "RearWall": { "src": "BlackWall.jpg" },
@@ -78,6 +78,8 @@ const textures = {
     "Ole-Erling": { "src": "ole-erling.png" },
     "SkyHeroes": { "src": "skyheroes.png" },
 
+    "GoldenMime": { "src": "GoldenMime.png" },
+
     "EaselBackLeg": easelWood,
     "EaselLeftLeg": easelWood,
     "EaselRightLeg": easelWood,
@@ -95,7 +97,17 @@ const textures = {
     "Heads-Michael": { "src": "Heads-Michael.png" },
     "Heads-Skttl": { "src": "Heads-Skttl.png" },
 
-
+    "history-01": { "src": "history/history-01.jpg" },
+    "history-02": { "src": "history/history-02.jpg" },
+    "history-03": { "src": "history/history-03.jpg" },
+    "history-04": { "src": "history/history-04.jpg" },
+    "history-05": { "src": "history/history-05.jpg" },
+    "history-06": { "src": "history/history-06.jpg" },
+    "history-07": { "src": "history/history-07.jpg" },
+    "history-08": { "src": "history/history-08.jpg" },
+    "history-09": { "src": "history/history-09.jpg" },
+    "history-10": { "src": "history/history-10.jpg" },
+    "history-11": { "src": "history/history-11.jpg" }
 }
 
 function loadTextures(loader) {
@@ -452,8 +464,8 @@ function figureMovement() {
                     let quote = quotes[quoteNo];
                     let texture = new THREE.CanvasTexture(createBubble.apply(null, quote));
                     let panel = createPanel(1.5);
-                    panel.position.x = .8;
-                    panel.position.z = .1;
+                    panel.position.x = 1.2;
+                    panel.position.z = .3;
                     panel.position.y = 2.25 / (peep.peep.scale || 1);
                     panel.material.map = texture;
                     panel.material.needsUpdate = true;

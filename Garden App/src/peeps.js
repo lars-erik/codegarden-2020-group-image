@@ -37,17 +37,17 @@ var peeps = {
         pos: { x: -10, z: 3 },
         scale: 1.5
     },
-    
-    "candid-contribs": { pos: { x: -17, z: 20} },
+
+    "candid-contribs": { pos: { x: -17, z: 20 } },
 
     "umbeatles": { pos: { x: -6, z: 7 } },
     "erica-kyle-janae": { pos: { x: -10, z: 15 } },
 
-    "marianne-christian-slave-and-eagle": { pos: { x: -16, z: -13 }},
-    "john-seto": { pos: { x: -13, z: -14 }},
+    "marianne-christian-slave-and-eagle": { pos: { x: -16, z: -13 } },
+    "john-seto": { pos: { x: -12, z: -14 } },
 
     "rabbit-01": { pos: { x: 1, z: 26 } },
-    "rabbit-02": { pos: {x: 6, z: 2 }},
+    "rabbit-02": { pos: { x: 6, z: 2 } },
     "giraffe-01": { pos: { x: -7.2, z: 10 } },
 
     "lars": { pos: { x: -8, z: 19 } },
@@ -68,11 +68,16 @@ var peeps = {
     "matt-barlow": { pos: { x: -2, z: 23 } },
     "timqueens2": { pos: { x: 0, z: 11 } },
 
-    "paul-sterling": { pos: { x: -19, z: 4 }},
+    "paul-sterling": { pos: { x: -19, z: 4 } },
 
-    "heather": { pos: { x: 1, z: 16 }},
-    "bob": { pos: { x: 2, z: 17 }},
-    "dennis-o": { pos: { x: 0, z: 29 }},
+    "heather": { pos: { x: 1, z: 16 } },
+    "bob": { pos: { x: 2, z: 17 } },
+    "dennis-o": { pos: { x: 0, z: 29 } },
+
+    "kris": { pos: { x: -17, z: -9 } },
+    "alan-mackenna": { pos: { x: 2, z: 7 }},
+
+    "codecabin": { pos: { x: -6, z: -2 }},
 };
 
 export default peeps;
