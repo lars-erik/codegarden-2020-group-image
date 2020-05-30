@@ -8,7 +8,7 @@ import peeps from "./peeps";
 
 import { createBubble } from "./bubbles";
 
-var container, orbitControls, walkControls, fpsControls;
+var container, walkControls;
 var camera, scene, renderer;
 
 var moveForward = false;
@@ -107,7 +107,12 @@ const textures = {
     "history-08": { "src": "history/history-08.jpg" },
     "history-09": { "src": "history/history-09.jpg" },
     "history-10": { "src": "history/history-10.jpg" },
-    "history-11": { "src": "history/history-11.jpg" }
+    "history-11": { "src": "history/history-11.jpg" },
+
+    "rocket-01": { "src": "rocket/rocket-01.png" },
+    "rocket-02": { "src": "rocket/rocket-02.png" },
+    "rocket-03": { "src": "rocket/rocket-03.png" },
+    "rocket-04": { "src": "rocket/rocket-04.png" }
 }
 
 function loadTextures(loader) {
@@ -187,6 +192,50 @@ let audioPromise = new Promise((res, rej) => {
     });
 });
 
+let rocket;
+
+function createRocket() {
+    rocket = createPanel(20);
+    rocket.name = "rocket";
+
+    let mat = rocket.material;
+
+    mat.map = textures["rocket-01"].texture;
+    // mat.map.flipY = true;
+    mat.side = THREE.DoubleSide;
+    mat.needsUpdate = true;
+    mat.transparent = true;
+
+    rocket.position.x = 30;
+    rocket.position.z = -100;
+    rocket.position.y = 10;
+
+    scene.add(rocket);
+}
+
+let rocketIndex = 1;
+let lastFrame = new Date();
+let start = new Date();
+function animateRocket() {
+    let now = new Date();
+    let diff = now - lastFrame;
+    let fullDiff = now - start;
+    if (diff > 200) {
+        let mat = rocket.material;
+        mat.map = textures["rocket-0" + (rocketIndex++)].texture;
+        // mat.map.flipY = true;
+        mat.needsUpdate = true;
+        if (rocketIndex === 4) {
+            rocketIndex = 1;
+        }
+        lastFrame = now;
+    }
+
+    rocket.position.z = Math.cos(Math.PI * fullDiff / -10000) * 200;
+    rocket.position.y = Math.sin(Math.PI * fullDiff / -10000) * 200;
+    rocket.rotation.x = Math.PI * fullDiff / 10000;
+}
+
 init();
 
 function init() {
@@ -196,7 +245,7 @@ function init() {
     container = document.createElement('div');
     document.body.appendChild(container);
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 250);
     camera.position.set(-12, 3.2, 32);
 
     window.peeps = peeps;
@@ -234,6 +283,9 @@ function init() {
 
                 Promise.all([envTextures, peepTextures])
                     .then(() => {
+
+                        createRocket();
+
                         gltf.scene.traverse(function (child) {
 
                             if (child.isMesh && textures[child.name]) {
@@ -292,7 +344,6 @@ function init() {
 
                             let volume = 1 - camera.position.distanceTo(scene.getObjectByName('Ole-Erling').position) / 43;
                             document.getElementById("audio").volume = volume;
-                            document.getElementById("audio").play();
 
                             window.addEventListener('click', toggleLock, false);
 
@@ -323,7 +374,13 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
 }
 
+let startSound = true;
 function toggleLock() {
+    if (startSound) {
+        startSound = false;
+        document.getElementById("audio").play();
+    }
+
     if (isLocked) {
         walkControls.unlock();
     } else {
@@ -487,6 +544,7 @@ function figureMovement() {
 function animate() {
     figureMovement();
     render();
+    animateRocket();
     requestAnimationFrame(animate);
 }
 
