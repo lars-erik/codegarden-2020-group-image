@@ -1,2 +1,0 @@
-body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;font-family:monospace}#output,body,html{background-color:#000}#output{position:absolute;right:0;top:0;padding:5px;width:150px;height:25px;color:#fff;text-align:right}#loader{display:flex;align-items:center;justify-content:center;width:100%;height:100%;z-index:-1;color:#fff;font-size:2em;flex-direction:column}#instructions{margin-top:20px;text-align:center;font-size:.75em;font-style:italic}
-/*# sourceMappingURL=main.1f12c300.css.map */
