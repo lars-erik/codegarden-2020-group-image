@@ -27,8 +27,18 @@ var peeps = {
         fixed: true
     },
 
+    "anders-and-the-caravan": {
+        pos: {
+            x: 0,
+            z: 34
+        },
+        scale: 3,
+        rot: Math.PI,
+        fixed: true
+    },
+
     // TODO: Figure out why they're not visible
-    "kim-and-rune": { pos: { x: 0, z: 0 }, fixed: true },
+    "kim-and-rune": { pos: { x: -12, z: 26 }, fixed: true },
 
 
     "package-team": { pos: { x: -3, z: 21 } },

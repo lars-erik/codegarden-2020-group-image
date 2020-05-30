@@ -176,7 +176,7 @@ let audioPromise = new Promise((res, rej) => {
     let timer = setTimeout(function() {
         console.log("starting without music");
         res();
-    }, 10000);
+    }, 5000);
 
     document.getElementById("audio").loop = true;
     document.getElementById("audio").volume = 0;
@@ -197,7 +197,7 @@ function init() {
     document.body.appendChild(container);
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-    camera.position.set(-11.5, 3.2, 29.8);
+    camera.position.set(-12, 3.2, 32);
 
     window.peeps = peeps;
     window.scene = scene = new THREE.Scene();
@@ -269,7 +269,7 @@ function init() {
                                 peepMesh.position.x = peep.pos.x;
                                 peepMesh.position.z = peep.pos.z;
                                 peepMesh.position.y = scale / 2;
-                                peepMesh.rotation.y = peep.rot;
+                                peepMesh.rotation.y = peep.rot || 0;
 
                                 peepMesh.name = key;
                                 peepMesh.isPeep = true;
